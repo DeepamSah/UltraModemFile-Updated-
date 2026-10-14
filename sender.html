@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SENDER · ULTRAMODEM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1>▚ ULTRAMODEM</h1>
+      <div class="sub">acoustic FSK data link — <a href="/" style="color:inherit;">back to menu</a></div>
+    </div>
+    <div class="clock">MODE<br><b>▲ SENDER</b></div>
+  </header>
+
+  <!-- TRANSMITTER -->
+  <div class="panel" data-tag="04–07 · TRANSMITTER">
+    <label for="bandSel">CARRIER BAND — both devices must use the same one</label>
+    <select id="bandSel">
+      <option value="2000,200">2.0–5.0 kHz · AUDIBLE (default — works with any speaker and mic)</option>
+      <option value="17000,180">17.0–19.7 kHz · ULTRASONIC (near-silent, but most speakers cannot reproduce it)</option>
+    </select>
+    <label for="txText" style="margin-top:12px;">TEXT MESSAGE</label>
+    <input type="text" id="txText" placeholder="Hello" value="Hello" maxlength="90">
+    <div class="btnrow">
+      <button class="primary" id="sendBtn">▲ SEND TEXT</button>
+    </div>
+    <div class="readout" style="margin-top:10px;">
+      <span class="k">PACKET LENGTH</span>
+      <span class="v" id="txLen">0 bytes</span>
+    </div>
+    <div class="readout">
+      <span class="k">CHECKSUM (CRC-16)</span>
+      <span class="v" id="txChecksum">—</span>
+    </div>
+    <label style="margin-top:10px;">FULL SYMBOL STREAM</label>
+    <div class="bitstream" id="txBits">—</div>
+    <div class="hint">Preamble · start · header · payload · CRC-16 · end — 4 bits per 50ms symbol, 16 tones evenly spaced across the selected band. If the receiver never locks, switch both devices to the AUDIBLE band: ultrasonic tones above ~16 kHz are inaudible to most laptop and phone speakers.</div>
+  </div>
+
+  <!-- DOCUMENT TRANSMITTER -->
+  <div class="panel" data-tag="04–07 · DOCUMENT TRANSMITTER">
+    <label for="fileInput">SEND A FILE (PDF, images, zips — any document)</label>
+    <input type="file" id="fileInput" class="fileinput">
+    <div class="readout" style="margin-top:10px;">
+      <span class="k">SELECTED FILE</span>
+      <span class="v" id="fileInfo" style="font-size:11px;">no file selected</span>
+    </div>
+    <div class="btnrow">
+      <button class="primary" id="sendFileBtn" disabled>📦 SEND FILE</button>
+    </div>
+    <div class="hint">Files are split into 94-byte chunks; every chunk is a CRC-16 protected packet and the receiver reassembles them into a download. Acoustic bandwidth is limited — expect a few bytes per second, so keep test files small (a page or two of PDF is fine). Both devices must stay open and the room quiet until the transfer completes.</div>
+  </div>
+
+  <div class="panel" data-tag="LOG">
+    <label>EVENT LOG</label>
+    <div class="log" id="eventLog"></div>
+  </div>
+
+</div>
+<script src="modem-core.js" defer></script>
+<script src="main.js" defer></script>
+<footer>
+  <div class="footer-content">
+    <p>© 2026 Ronen Singha. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://github.com/ronen6999/ultramodem" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span>Github</span>
+      </a>
+      <a href="https://ronen.in" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4.06a.75.75 0 0 0 0 1.495.638.638 0 0 1 .282.636a6.49 6.49 0 0 0-.31.633.75.75 0 0 0 .595.943l.193.041c.29.063.63.093.97.093.338 0 .678-.03.968-.09l.193-.04a.75.75 0 0 0 .595-.943.639.639 0 0 1-.31-.634.75.75 0 0 0 0-1.495a7.975 7.975 0 0 0-1.47-1.148A7.998 7.998 0 0 0 7.5 1.077zM4.25 7.5a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5zM4.855 4.605a.75.75 0 1 0-.91 1.287l1.012.72a.75.75 0 0 0 .91-1.287l-1.012-.72zm8.28 6.79a.75.75 0 1 0-.91 1.287l1.012.72a.75.75 0 0 0 .91-1.287l-1.012-.72zM7.5 14.923c.67-.204 1.335-.82 1.887-1.855a7.975 7.975 0 0 0 1.47-1.148.75.75 0 0 0 0-1.495.638.638 0 0 1-.282-.636 6.49 6.49 0 0 0 .31-.633.75.75 0 0 0-.595-.943l-.193-.041a2.84 2.84 0 0 0-.97-.093c-.338 0-.678.03-.968.09l-.193.04a.75.75 0 0 0-.595.943c.092.19.201.37.31.529.04.058.074.12.1.184a.639.639 0 0 1-.31.634.75.75 0 0 0 0 1.495a7.975 7.975 0 0 0 1.47 1.148A7.998 7.998 0 0 0 7.5 14.923z"/>
+        </svg>
+        <span>Portfolio</span>
+      </a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

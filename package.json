@@ -1,0 +1,16 @@
+{
+  "name": "ultramodem",
+  "version": "1.0.0",
+  "description": "Acoustic FSK data link — browser to browser over sound, no cables. Text and file transfer through speakers and microphones.",
+  "license": "MIT",
+  "author": "Ronen Singha",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/loopback.test.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
